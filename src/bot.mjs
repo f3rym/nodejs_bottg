@@ -32,7 +32,7 @@ bot.on('/move', async (msg) => {
         const position = characters[playerId].position;
 
         if(position % 2 != 0) {
-            enemyFight(msg);
+            enemyFight(msg, characters);
         }
         await bot.sendMessage(msg.chat.id, `Вы передвинулись на ${position}. Что будем делать дальше?`);
     } else {

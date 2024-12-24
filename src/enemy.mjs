@@ -1,4 +1,4 @@
-export const enemyFight = async(msg) => {
+export const enemyFight = async(msg, characters) => {
     let enemy;    
     const playerId = msg.from.id; 
       if (characters[playerId])      {
