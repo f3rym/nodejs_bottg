@@ -1,4 +1,4 @@
-export const enemyFight = (msg) => {
+export const enemyFight = async(msg) => {
     let enemy;    
     const playerId = msg.from.id; 
       if (characters[playerId])      {
@@ -9,9 +9,9 @@ export const enemyFight = (msg) => {
                 health: 100, 
             }
         }
-         msg.reply.text(`Вы атакуете ${JSON.stringify(enemy)}. Битва началась!`);
+         await msg.reply.text(`Вы атакуете ${JSON.stringify(enemy)}. Битва началась!`);
          }
           else { 
-            msg.reply.text('Сначала создайте персонажа с помощью команды /create_character имя класс.'); 
+           await msg.reply.text('Сначала создайте персонажа с помощью команды /create_character имя класс.'); 
         }
     };
