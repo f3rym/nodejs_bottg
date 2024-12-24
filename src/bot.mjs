@@ -1,5 +1,5 @@
 import TeleBot from 'telebot';
-
+import { enemyFight } from './enemy.mjs';
 const bot = new TeleBot(process.env.TELEGRAM_BOT_TOKEN);
 
 const characters = {};
@@ -17,6 +17,7 @@ bot.on(/^\/create_character (.+) (.+)$/, async (msg, props) => {
         class: charClass, 
         level: 1, 
         experience: 0, 
+        damage: 25,
         health: 100, 
         inventory: [], 
         position: 0
@@ -28,8 +29,11 @@ bot.on('/move', async (msg) => {
     const playerId = msg.from.id;
     if (characters[playerId]) {
         characters[playerId].position += 1;
-        const position = characters[playerId].position;
-        await bot.sendMessage(msg.chat.id, `Вы передвинулись на ${position}. Что будем делать дальше?`);
+
+        if(position % 2 != 0) {
+            await enemyFight(msg);
+        }
+        await bot.sendMessage(msg.chat.id, `Вы передвинулись на ${characters[playerId].position}. Что будем делать дальше?`);
     } else {
         await bot.sendMessage(msg.chat.id, 'Сначала создайте персонажа с помощью команды /create_character имя класс.');
     }
