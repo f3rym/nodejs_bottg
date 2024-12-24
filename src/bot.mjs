@@ -1,8 +1,5 @@
 import TeleBot from 'telebot';
-import dotenv from 'dotenv';
 import { enemyFind, box1Attack, box2Attack, defAttack } from './enemy.mjs'; // Подключение функций
-
-dotenv.config();
 
 const bot = new TeleBot(process.env.TELEGRAM_BOT_TOKEN);
 
