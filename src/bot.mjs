@@ -35,14 +35,6 @@ bot.on('/move', msg => {
     }
 });
 
-// Обработчик текстовых сообщений
-bot.on('text', msg => {
-    const playerId = msg.from.id;
-    if (characters[playerId]) {
-        bot.sendMessage(msg.chat.id, `Ваш персонаж ${characters[playerId].name} класса ${characters[playerId].class}. Используйте команды для взаимодействия.`);
-    } else {
-        bot.sendMessage(msg.chat.id, 'Привет, друг! Используйте команду /create_character имя класс для создания персонажа.');
-    }
-});
+
 
 export default bot;
