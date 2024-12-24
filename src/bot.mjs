@@ -35,8 +35,6 @@ bot.on('/move', msg => {
     }
 });
 
-bot.on('text', msg => {
-    bot.sendMessage(msg.chat.id, 'ейп');
-});
+
 
 export default bot;
