@@ -4,7 +4,7 @@ const bot = new TeleBot(process.env.TELEGRAM_BOT_TOKEN);
 
 const characters = {};
 
-bot.on('/start', msg => {
+bot.on('/start', async (msg) => {
     bot.sendMessage(msg.chat.id, 'Привет, друг, жми /create_character имя класс');
 });
 
@@ -24,7 +24,7 @@ bot.on(/^\/create_character (.+) (.+)$/, (msg, props) => {
     bot.sendMessage(msg.chat.id, `Создан персонаж ${name} класса ${charClass}.`);
 });
 
-bot.on('/move', msg => {
+bot.on('/move', async (msg) => {
     const playerId = msg.from.id;
     if (characters[playerId]) {
         characters[playerId].position += 1;
