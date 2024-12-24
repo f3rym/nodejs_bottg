@@ -8,7 +8,7 @@ bot.on('/start', async (msg) => {
     bot.sendMessage(msg.chat.id, 'Привет, друг, жми /create_character имя класс');
 });
 
-bot.on(/^\/create_character (.+) (.+)$/, (msg, props) => {
+bot.on(/^\/create_character (.+) (.+)$/, async (msg, props) => {
     const playerId = msg.from.id;
     const name = props.match[1];
     const charClass = props.match[2];
