@@ -5,7 +5,7 @@ const bot = new TeleBot(process.env.TELEGRAM_BOT_TOKEN);
 const characters = {};
 
 bot.on('/start', async (msg) => {
-    bot.sendMessage(msg.chat.id, 'Привет, друг, жми /create_character имя класс');
+    await bot.sendMessage(msg.chat.id, 'Привет, друг, жми /create_character имя класс');
 });
 
 bot.on(/^\/create_character (.+) (.+)$/, async (msg, props) => {
@@ -21,7 +21,7 @@ bot.on(/^\/create_character (.+) (.+)$/, async (msg, props) => {
         inventory: [], 
         position: 0
     };
-    bot.sendMessage(msg.chat.id, `Создан персонаж ${name} класса ${charClass}.`);
+    await bot.sendMessage(msg.chat.id, `Создан персонаж ${name} класса ${charClass}.`);
 });
 
 bot.on('/move', async (msg) => {
@@ -29,9 +29,9 @@ bot.on('/move', async (msg) => {
     if (characters[playerId]) {
         characters[playerId].position += 1;
         const position = characters[playerId].position;
-        bot.sendMessage(msg.chat.id, `Вы передвинулись на ${position}. Что будем делать дальше?`);
+        await bot.sendMessage(msg.chat.id, `Вы передвинулись на ${position}. Что будем делать дальше?`);
     } else {
-        bot.sendMessage(msg.chat.id, 'Сначала создайте персонажа с помощью команды /create_character имя класс.');
+        await bot.sendMessage(msg.chat.id, 'Сначала создайте персонажа с помощью команды /create_character имя класс.');
     }
 });
 
