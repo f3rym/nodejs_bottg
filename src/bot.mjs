@@ -60,6 +60,5 @@ bot.on('/fight', async (msg) => {
     await defAttack(msg, characters, enemy); // Используем await для асинхронного вызова
 });
 
-bot.start();
 
 export default bot;
