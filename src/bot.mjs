@@ -29,11 +29,12 @@ bot.on('/move', async (msg) => {
     const playerId = msg.from.id;
     if (characters[playerId]) {
         characters[playerId].position += 1;
+        const position = characters[playerId].position;
 
         if(position % 2 != 0) {
             await enemyFight(msg);
         }
-        await bot.sendMessage(msg.chat.id, `Вы передвинулись на ${characters[playerId].position}. Что будем делать дальше?`);
+        await bot.sendMessage(msg.chat.id, `Вы передвинулись на ${position}. Что будем делать дальше?`);
     } else {
         await bot.sendMessage(msg.chat.id, 'Сначала создайте персонажа с помощью команды /create_character имя класс.');
     }
