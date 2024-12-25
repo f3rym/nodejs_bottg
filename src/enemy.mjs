@@ -47,9 +47,14 @@ export const boxAttack = async (msg, enemy) =>
                 await updateCharacter(userId, { dept: character.dept });
                 await updateCharacter(userId, { health: character.health }); // Сохранение изменений в базу данных
 
-                await msg.reply.text('Атака не удалась! Попробуйте другой вариант.');
+                if(character.health <= 0 || enemy[userId].health <= 0)
+                    await ChekHP(msg, enemy);
+                else
+                {
+                    await msg.reply.text('Атака не удалась! Попробуйте другой вариант.');
 
-                await msg.reply.text(`Оу нееет. Враг нанес урон, у вас осталось: ${character.health} HP`);
+                    await msg.reply.text(`Оу нееет. Враг нанес урон, у вас осталось: ${character.health} HP`);
+                }
             }
             else if (randomValue === 1)
             {
@@ -59,7 +64,7 @@ export const boxAttack = async (msg, enemy) =>
                 await updateCharacter(userId, { dept: character.dept });
                 character.health -=enemy[userId].damage;
                 await updateCharacter(userId, { health: character.health }); // Сохранение изменений в базу данных
-
+      console.log(`character.health: ${character.health}, enemy[${userId}].health: ${enemy[userId].health}`);
                 if(character.health <= 0 || enemy[userId].health <= 0)
                     await ChekHP(msg, enemy);
                 else
@@ -97,7 +102,7 @@ export const defAttack = async (msg,  enemy) =>
             character.health -=enemy[userId].damage;
             await updateCharacter(userId, { health: character.health }); // Сохранение изменений в базу данных
             await updateCharacter(userId, { dept: character.dept });
-
+    console.log(`character.health: ${character.health}, enemy[${userId}].health: ${enemy[userId].health}`);
             if(character.health <= 0 || enemy[userId].health <= 0)
                 ChekHP(msg, enemy);
             else
