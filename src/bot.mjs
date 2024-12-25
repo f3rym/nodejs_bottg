@@ -89,5 +89,35 @@ bot.on('/db', async (msg) =>
     }
 });
         
+bot.on('/stats', async (msg) => 
+{ 
+    const userId = msg.from.id;
+    try 
+    {
+        const character = await getCharacter(userId);
+        if (character)
+        { 
+            const stats = 
+                ` Имя: ${character.name}
+                  Класс: ${character.class}
+                  Уровень: ${character.level} 
+                  Опыт: ${character.experience} 
+                  Урон: ${character.damage} 
+                  Здоровье: ${character.health}
+                  Позиция: ${character.position} `; 
+                await bot.sendMessage(msg.chat.id, stats);
+        }
+        else
+        { 
+            await bot.sendMessage(msg.chat.id, 'Персонаж не найден. Создайте персонажа с помощью команды /create_character и класс.');
+        } 
+    } 
+    catch (err) 
+    { 
+        console.error(err); 
+        await bot.sendMessage(msg.chat.id, `Ошибка при получении персонажа: ${err.message}`); 
+    }
+});
 
 export default bot;
+
