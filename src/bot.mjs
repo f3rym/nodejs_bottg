@@ -9,6 +9,10 @@ const enemy = {}
 
 //Start command
 bot.on('/start', async (msg) => {
+    userId = msg.from.id;
+    const character = await getCharacter(userId);
+    
+    await updateCharacter(userId, {health: 100});
     await bot.sendMessage(msg.chat.id, 'Привет, друг, жми /create_character  и напиши свой класс');
 });
 
