@@ -2,7 +2,7 @@ import TeleBot from 'telebot';
 import mongo from './db.mjs'
 import { enemyFind, box1Attack, box2Attack, defAttack } from './enemy.mjs';
 
-const bot = new TeleBot(process.env.TELEGRAM_BOT_TOKEN);
+const bot = new TeleBot(process.env.TELEGRAM_BOT_TOKEN)
  
 
 const characters = {};
