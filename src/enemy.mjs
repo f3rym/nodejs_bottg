@@ -1,67 +1,104 @@
-export const getRandomNumber = (max) => {
-    return Math.floor(Math.random() * max);
-};
+import { getCharacter, updateCharacter } from "./class.mjs";
 
-export const enemyFind = async (msg, characters, enemy) => {
-    const playerId = msg.from.id; 
-    
-    if (characters[playerId]) {
-        if (characters[playerId].position < 10) {
-            enemy[playerId] = {
-                name: 'ABOBA', 
-                damage: 50, 
-                health: 100
-            };
+export const getRandomNumber = (max) => { return Math.floor(Math.random() * max); };
+
+export const enemyFind = async (msg, userId, enemy) => 
+{
+    try 
+    {
+        const character = await getCharacter(userId);
+
+        if(character)
+        {
+            if(character.position < 10)
+            {
+                enemy[userId] = 
+                {
+                    name: 'ABOBA', 
+                    damage: 50,
+                    health: 100
+                }
+            }
+            await msg.reply.text(`Вы атакуете ${enemy[userId].name}. Битва началась! Урон: ${enemy[userId].damage}, Здоровье: ${enemy[userId].health}\nВыбирай ящик для атаки или атакуй:\n/box1 /box2 /fight`);
+
         }
+        else
+            await msg.reply.text(`'Персонаж не найден. Создайте персонажа с помощью команды /create_character и класс.'`);
+    }
+    catch (err)
+    {
+        await bot.reply.text(msg.chat.id, 'Ошибка при получении персонажа.');
+    }
+};
         
-        await msg.reply.text(`Вы атакуете ${enemy[playerId].name}. Битва началась! Урон: ${enemy[playerId].damage}, Здоровье: ${enemy[playerId].health}\nВыбирай ящик для атаки или атакуй:\n/box1 /box2 /fight`);
-    } else { 
-        await msg.reply.text('Сначала создайте персонажа с помощью команды /create_character имя класс.'); 
-    }
-};
-
-export const box1Attack = async (msg, characters, enemy) => { 
-    const playerId = msg.from.id;
+export const boxAttack = async (msg, enemy) => 
+{ 
+    const userId = msg.from.id;
     const randomValue = getRandomNumber(2); 
 
-    if (characters[playerId]) {
-        if (randomValue === 0) { 
-            await msg.reply.text('Атака не удалась! Попробуйте другой вариант.');
-        } else if (randomValue === 1) {
-            const damage = characters[playerId].damage * 2;
-            enemy[playerId].health -= damage; 
-            await msg.reply.text(`Успех! Атака удалась. Ваш урон: ${damage}. Здоровье врага: ${enemy[playerId].health}`); 
+    const character = await getCharacter(userId);
+
+    try
+    {
+        if (character)
+        {
+            if (randomValue === 0) 
+            { 
+                character.health -=enemy[userId].damage;
+                await updateCharacter(userId, { health: character.health }); // Сохранение изменений в базу данных
+
+                await msg.reply.text('Атака не удалась! Попробуйте другой вариант.');
+
+                await msg.reply.text(`Оу нееет. Враг нанес урон, у вас осталось: ${character.health} HP`);
+            }
+            else if (randomValue === 1)
+            {
+                const damage = character.damage * 2;
+                enemy[userId].health -= damage; 
+
+                character.health -=enemy[userId].damage;
+                await updateCharacter(userId, { health: character.health }); // Сохранение изменений в базу данных
+                await msg.reply.text(`Успех! Атака удалась. Ваш урон: ${damage}. Здоровье врага: ${enemy[userId].health}`);
+                
+                await msg.reply.text(`Оу нееет. Враг нанес урон, у вас осталось: ${character.health} HP`);
+            }
         }
-    } else { 
-        await msg.reply.text('Сначала создайте персонажа с помощью команды /create_character имя класс.'); 
+        else
+            await msg.reply.text('Сначала создайте персонажа с помощью команды /create_character и класс.'); 
     }
+    catch (err)
+    {
+        await bot.reply.text(msg.chat.id, 'Ошибка при получении персонажа.');
+    }
+    
 };
 
-export const box2Attack = async (msg, characters, enemy) => { 
-    const playerId = msg.from.id;
-    const randomValue = getRandomNumber(2); 
 
-    if (characters[playerId]) {
-        if (randomValue === 0) { 
-            await msg.reply.text('Атака не удалась! Попробуйте другой вариант.');
-        } else if (randomValue === 1) {
-            const damage = characters[playerId].damage * 2;
-            enemy[playerId].health -= damage; 
-            await msg.reply.text(`Успех! Атака удалась. Ваш урон: ${damage}. Здоровье врага: ${enemy[playerId].health}`); 
+export const defAttack = async (msg,  enemy) =>
+{
+    const userId = msg.from.id;
+
+    const character = await getCharacter(userId);
+
+    try
+    {
+        if (character)
+        {
+            const damage = character.damage;
+            enemy[userId].health -= damage; 
+
+            character.health -=enemy[userId].damage;
+            await updateCharacter(userId, { health: character.health }); // Сохранение изменений в базу данных
+
+            await msg.reply.text(`Атака. Ваш урон: ${damage}. Здоровье врага: ${enemy[userId].health}`);
+                
+            await msg.reply.text(`Оу нееет. Враг нанес урон, у вас осталось: ${character.health} HP`);
         }
-    } else { 
-        await msg.reply.text('Сначала создайте персонажа с помощью команды /create_character имя класс.'); 
+        else
+            await msg.reply.text('Сначала создайте персонажа с помощью команды /create_character и класс.'); 
     }
-};
-
-export const defAttack = async (msg, characters, enemy) => {
-    const playerId = msg.from.id;
-
-    if (characters[playerId]) {
-        const damage = characters[playerId].damage;
-        enemy[playerId].health -= damage;
-        await msg.reply.text(`Атака удалась. Ваш урон: ${damage}. Здоровье врага: ${enemy[playerId].health}`);
-    } else {
-        await msg.reply.text('Сначала создайте персонажа с помощью команды /create_character имя класс.'); 
+    catch (err)
+    {
+        await bot.reply.text(msg.chat.id, 'Ошибка при получении персонажа.');
     }
 };

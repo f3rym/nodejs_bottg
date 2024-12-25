@@ -1,71 +1,93 @@
 import TeleBot from 'telebot';
 import connectDB from './db.mjs';  // Экспорт по умолчанию
-import { enemyFind, box1Attack, box2Attack, defAttack } from './enemy.mjs';
+import { enemyFind, boxAttack, defAttack } from './enemy.mjs';
+import { getCharacter, createCharacter, updateCharacter } from './class.mjs';
 
 const bot = new TeleBot(process.env.TELEGRAM_BOT_TOKEN)
  
-
-const characters = {};
 const enemy = {}
+
+//Start command
 bot.on('/start', async (msg) => {
-    await bot.sendMessage(msg.chat.id, 'Привет, друг, жми /create_character имя класс');
+    await bot.sendMessage(msg.chat.id, 'Привет, друг, жми /create_character  и напиши свой класс');
 });
 
-bot.on(/^\/create_character (.+) (.+)$/, async (msg, props) => {
-    const playerId = msg.from.id;
-    const name = props.match[1];
-    const charClass = props.match[2];
-    characters[playerId] = {
-        name, 
-        class: charClass, 
-        level: 1, 
-        experience: 0, 
-        damage: 25,
-        health: 100, 
-        inventory: [], 
-        position: 0
-    };
-    await bot.sendMessage(msg.chat.id, `Создан персонаж ${name} класса ${charClass}.`);
-});
-
-bot.on('/move', async (msg) => {
-    const playerId = msg.from.id;
-    if (characters[playerId]) {
-        characters[playerId].position += 1;
-        const position = characters[playerId].position;
-
-        
-        await bot.sendMessage(msg.chat.id, `Вы передвинулись на ${position}. `);
-        if(position % 2 != 0) 
-           enemyFind(msg, characters, enemy);
-    } else {
-        await bot.sendMessage(msg.chat.id, 'Сначала создайте персонажа с помощью команды /create_character имя класс.');
+//Create character for player
+bot.on(/^\/create_character (.+)$/, async (msg, props) => {
+    const userId = msg.from.id;
+    const name = msg.from.username;
+    const charClass = props.match[1];
+    try 
+    {
+        await createCharacter(userId, name, charClass);
+        await bot.sendMessage(msg.chat.id, `Создан персонаж ${name} класса ${charClass}.`);
+    }
+    catch (err)
+    {
+        await bot.sendMessage(msg.chat.id, 'Ошибка при создании персонажа.');
     }
 });
 
-bot.on('/box1', async (msg) => { 
-    await box1Attack(msg, characters, enemy);
-     }); 
-      bot.on('/box2', async (msg) => {
-         await box2Attack(msg, characters, enemy);
-        }); 
-        bot.on('/fight', async (msg) => {
-             await defAttack(msg, characters, enemy); 
-        });
+//Move in map
+bot.on('/move', async (msg) => 
+{
+    const userId = msg.from.id;
 
-        bot.on('/db', async (msg) => {
-            try {
-                // Попытка подключиться к базе данных
-                const database = await connectDB();
-                
-                // Ответ пользователю с именем базы данных
-                await msg.reply.text(`Подключено к базе данных: ${database.databaseName}`);
-            } catch (error) {
-                // Обработка ошибки подключения
-                console.error('Ошибка при подключении к базе данных:', error);
-                await msg.reply.text('Не удалось подключиться к базе данных. Проверьте настройки.');
-            }
-        });
+    try
+    {
+        const character = await getCharacter(userId);
+
+        if (character) 
+        {
+            character.position += 1;
+
+            await updateCharacter(userId, { position: character.position }); // Сохранение изменений в базу данных
+
+            await bot.sendMessage(msg.chat.id, `Вы передвинулись на ${character.position}. `);
+            if(position % 2 != 0) 
+                enemyFind(msg, userId, enemy);
+        }
+        else
+        {
+            await bot.sendMessage(msg.chat.id, 'Персонаж не найден. Создайте персонажа с помощью команды /create_character и класс.');
+        }
+    }
+    catch (err)
+    {
+        await bot.sendMessage(msg.chat.id, 'Ошибка при получении персонажа.');
+    }
+});
+
+//Attacks
+bot.on('/box1', async (msg) => 
+{ 
+    await boxAttack(msg, enemy);
+}); 
+
+bot.on('/box2', async (msg) => 
+{
+    await boxAttack(msg, enemy);
+}); 
+        
+bot.on('/fight', async (msg) => 
+{
+    await defAttack(msg, enemy); 
+});
+
+bot.on('/db', async (msg) => 
+{
+    try 
+    {
+    const db = await connectDB();
+         
+    await msg.reply.text(`Подключено к базе данных: ${db.databaseName}`);
+    } 
+    catch (err)
+    {
+    console.error('Ошибка при подключении к базе данных:', err);
+    await msg.reply.text('Не удалось подключиться к базе данных. Проверьте настройки.');
+    }
+});
         
 
 export default bot;

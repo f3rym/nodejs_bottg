@@ -6,4 +6,4 @@ const connectDB = async () => {
     return client.db();
 };
 
-export default connectDB;  // Экспортируем функцию как default
+export default connectDB;  
