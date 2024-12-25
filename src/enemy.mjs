@@ -53,7 +53,7 @@ export const boxAttack = async (msg, enemy) =>
                 {
                     await msg.reply.text('Атака не удалась! Попробуйте другой вариант.');
 
-                    await msg.reply.text(`Оу нееет. Враг нанес урон, у вас осталось: ${character.health} HP`);
+                    await msg.reply.text(`Оу нееет. Враг нанес урон, у вас осталось: ${character.health} HP\n/box1 /box2 /fight`);
                 }
             }
             else if (randomValue === 1)
@@ -69,9 +69,9 @@ export const boxAttack = async (msg, enemy) =>
                     await ChekHP(msg, enemy);
                 else
                 {
-                    await msg.reply.text(`Успех! Атака удалась. Ваш урон: ${damage}. Здоровье врага: ${enemy[userId].health}`);
+                    await msg.reply.text(`Успех! Атака удалась. Ваш урон: ${damage}. Здоровье врага: ${enemy[userId].health} HP`);
                 
-                    await msg.reply.text(`Оу нееет. Враг нанес урон, у вас осталось: ${character.health} HP`);
+                    await msg.reply.text(`Оу нееет. Враг нанес урон, у вас осталось: ${character.health} HP\n/box1 /box2 /fight `);
                 }
                 
             }
@@ -107,9 +107,9 @@ export const defAttack = async (msg,  enemy) =>
                  await ChekHP(msg, enemy);
             else
             {
-                await msg.reply.text(`Атака. Ваш урон: ${damage}. Здоровье врага: ${enemy[userId].health}`);
+                await msg.reply.text(`Атака. Ваш урон: ${damage}. Здоровье врага: ${enemy[userId].health} HP`);
                 
-                await msg.reply.text(`Оу нееет. Враг нанес урон, у вас осталось: ${character.health} HP`);
+                await msg.reply.text(`Оу нееет. Враг нанес урон, у вас осталось: ${character.health} HP\n/box1 /box2 /fight`);
             }
         }
         else
@@ -136,7 +136,7 @@ export const ChekHP = async (msg, enemy) =>
         await updateCharacter(userId, {health: 100});
 
         await msg.reply.text('Печаль...');
-        await msg.reply.text(`Вы погибли. Мне жаль. Вы перемещены в начало, ваша позиция ${character.position}`);
+        await msg.reply.text(`Вы погибли. Мне жаль. Вы перемещены в начало, ваша позиция ${character.position}\n /move`);
     }
     else if(enemy[userId].health <= 0)
     {
