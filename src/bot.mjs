@@ -9,7 +9,7 @@ const enemy = {}
 
 //Start command
 bot.on('/start', async (msg) => {
-    userId = msg.from.id;
+    const userId = msg.from.id;
     const character = await getCharacter(userId);
     
     await updateCharacter(userId, {health: 100});
