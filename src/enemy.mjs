@@ -60,7 +60,7 @@ export const boxAttack = async (msg, enemy) =>
             {
                 const damage = character.damage * 2;
                 enemy[userId].health -= damage; 
-                character.dept += enemy[userId].damage;
+                character.dept += damage;
                 await updateCharacter(userId, { dept: character.dept });
                 character.health -=enemy[userId].damage;
                 await updateCharacter(userId, { health: character.health }); // Сохранение изменений в базу данных
@@ -104,7 +104,7 @@ export const defAttack = async (msg,  enemy) =>
             await updateCharacter(userId, { dept: character.dept });
     console.log(`character.health: ${character.health}, enemy[${userId}].health: ${enemy[userId].health}`);
             if(character.health <= 0 || enemy[userId].health <= 0)
-                ChekHP(msg, enemy);
+                 await ChekHP(msg, enemy);
             else
             {
                 await msg.reply.text(`Атака. Ваш урон: ${damage}. Здоровье врага: ${enemy[userId].health}`);
@@ -133,6 +133,7 @@ export const ChekHP = async (msg, enemy) =>
         character.dept = 0;
         await updateCharacter(userId, { position: character.position }); // Сохранение изменений в базу данных
         await updateCharacter(userId, { dept: character.dept });
+        await updateCharacter(userId, {health: character.health});
 
         await msg.reply.text('Печаль...');
         await msg.reply.text(`Вы погибли. Мне жаль. Вы перемещены в начало, ваша позиция ${character.position}`);
@@ -145,6 +146,8 @@ export const ChekHP = async (msg, enemy) =>
         await updateCharacter(userId, { experience: character.experience});
         await updateCharacter(userId, { position: character.position }); // Сохранение изменений в базу данных
         await updateCharacter(userId, { dept: character.dept });
+        await updateCharacter(userId, {health: character.health});
+
 
         await msg.reply.text('Ого');
         await msg.reply.text(`Не такой ты и слабый)\nТвой опыт за победу +1.\nПродолжай /move`);

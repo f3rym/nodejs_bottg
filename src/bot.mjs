@@ -12,7 +12,7 @@ bot.on('/start', async (msg) => {
     const userId = msg.from.id;
     const character = await getCharacter(userId);
     
-    await updateCharacter(userId, {health: 100});
+ //   await updateCharacter(userId, {health: 100});
     await bot.sendMessage(msg.chat.id, 'Привет, друг, жми /create_character  и напиши свой класс');
 });
 
@@ -49,7 +49,7 @@ bot.on('/move', async (msg) =>
 
             await bot.sendMessage(msg.chat.id, `Вы передвинулись на ${character.position}. `);
             if(character.position % 2 != 0) 
-                enemyFind(msg, userId, enemy);
+                await enemyFind(msg, userId, enemy);
         }
         else
         {
