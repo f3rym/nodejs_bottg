@@ -28,7 +28,7 @@ export const getCharacter = async (userId) =>
     return character;
 }
 
-const updateCharacter = async (userId, updateFields) =>
+export const updateCharacter = async (userId, updateFields) =>
 { 
     const db = await connectDB();
     const collection = db.collection('characters');
