@@ -11,8 +11,6 @@ const enemy = {}
 bot.on('/start', async (msg) => {
     const userId = msg.from.id;
     const character = await getCharacter(userId);
-    
-    await updateCharacter(userId, {health: 100});
     await bot.sendMessage(msg.chat.id, 'Привет, друг, жми /create_character  и напиши свой класс');
 });
 

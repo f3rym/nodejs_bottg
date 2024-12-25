@@ -12,7 +12,7 @@ export const createCharacter = async (userId, name, charClass) =>
         level: 1, 
         experience: 0, 
         damage: 25, 
-        health: 100,
+        health: 125,
         dept: 0, 
         position: 0
     };
