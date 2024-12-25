@@ -44,7 +44,7 @@ bot.on('/move', async (msg) =>
             await updateCharacter(userId, { position: character.position }); // Сохранение изменений в базу данных
 
             await bot.sendMessage(msg.chat.id, `Вы передвинулись на ${character.position}. `);
-            if(position % 2 != 0) 
+            if(character.position % 2 != 0) 
                 enemyFind(msg, userId, enemy);
         }
         else
