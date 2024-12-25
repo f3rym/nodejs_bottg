@@ -1,5 +1,5 @@
 import TeleBot from 'telebot';
-import  connectDB  from './db.mjs';
+import connectDB from './db.mjs';  // Экспорт по умолчанию
 import { enemyFind, box1Attack, box2Attack, defAttack } from './enemy.mjs';
 
 const bot = new TeleBot(process.env.TELEGRAM_BOT_TOKEN)
