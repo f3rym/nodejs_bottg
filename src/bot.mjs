@@ -50,7 +50,7 @@ bot.on('/box1', async (msg) => {
          await box2Attack(msg, characters, enemy);
         }); 
         bot.on('/fight', async (msg) => {
-             await fightAttack(msg, characters, enemy); 
+             await defAttack(msg, characters, enemy); 
         });
 
  bot.on('/db', async (msg) => {
