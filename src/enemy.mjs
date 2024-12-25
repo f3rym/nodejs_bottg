@@ -24,7 +24,7 @@ export const enemyFind = async (msg, userId, enemy) =>
     }
     catch (err)
     {
-        await bot.reply.text(msg.chat.id, `Ошибка при получении персонажа.${err.message}`);
+        await msg.reply.text(msg.chat.id, `Ошибка при получении персонажа.${err.message}`);
     }
 };
         
@@ -61,7 +61,7 @@ export const boxAttack = async (msg, enemy) =>
                 await updateCharacter(userId, { health: character.health }); // Сохранение изменений в базу данных
 
                 if(character.health <= 0 || enemy[userId].health <= 0)
-                    ChekHP(msg, enemy);
+                    await ChekHP(msg, enemy);
                 else
                 {
                     await msg.reply.text(`Успех! Атака удалась. Ваш урон: ${damage}. Здоровье врага: ${enemy[userId].health}`);
@@ -76,7 +76,7 @@ export const boxAttack = async (msg, enemy) =>
     }
     catch (err)
     {
-        await bot.reply.text(msg.chat.id, `Ошибка при получении персонажа.${err.message}`);
+        await msg.reply.text(msg.chat.id, `Ошибка при получении персонажа.${err.message}`);
     }
     
 };
@@ -112,7 +112,7 @@ export const defAttack = async (msg,  enemy) =>
     }
     catch (err)
     {
-        await bot.reply.text(msg.chat.id, `Ошибка при получении персонажа.${err.message}`);
+        await msg.reply.text(msg.chat.id, `Ошибка при получении персонажа.${err.message}`);
     }
 };
 
