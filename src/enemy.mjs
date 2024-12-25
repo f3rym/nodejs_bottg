@@ -42,9 +42,9 @@ export const boxAttack = async (msg, enemy) =>
             if (randomValue === 0) 
             { 
                 character.health -=enemy[userId].damage;
-                character.dept += enemy[userId].damage;
-                enemy[userId].health -= character.damage; 
-                await updateCharacter(userId, { dept: character.dept });
+               // character.dept += enemy[userId].damage;
+               // enemy[userId].health -= character.damage; 
+              //  await updateCharacter(userId, { dept: character.dept });
                 await updateCharacter(userId, { health: character.health }); // Сохранение изменений в базу данных
 
                 if(character.health <= 0 || enemy[userId].health <= 0)
