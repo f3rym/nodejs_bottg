@@ -78,7 +78,7 @@ bot.on('/uncheat', async(msg) =>
     
         await updateCharacter(userId, {damage: 25});
         await bot.sendMessage(msg.chat.id, 'Выключение читов...')
-    })ж
+    });
 
 //Attacks
 bot.on('/box1', async (msg) => 
