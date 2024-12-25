@@ -1,17 +1,9 @@
 import { MongoClient } from 'mongodb';
 
-if (!process.env.MONGODB) {
-  throw new Error('The MONGODB environment variable is not defined');
-}
+const connectDB = async () => {
+    const client = new MongoClient(process.env.MONGO_URI);
+    await client.connect();
+    return client.db();
+};
 
-const client = new MongoClient(process.env.MONGODB);
-
-export default client.connect()
-  .then(() => {
-    console.log('Successfully connected to MongoDB');
-    return client;
-  })
-  .catch((err) => {
-    console.error('Failed to connect to MongoDB:', err);
-    throw err;
-  });
+export default connectDB;
