@@ -1,5 +1,5 @@
 import TeleBot from 'telebot';
-import mongo from './db.mjs'
+import { connectDB } from './path/to/db.js';
 import { enemyFind, box1Attack, box2Attack, defAttack } from './enemy.mjs';
 
 const bot = new TeleBot(process.env.TELEGRAM_BOT_TOKEN)
@@ -53,5 +53,14 @@ bot.on('/box1', async (msg) => {
              await fightAttack(msg, characters, enemy); 
         });
 
-bot.on('/db', async (msg) => msg.reply.text(mongo.db().databaseName))        
+ bot.on('/db', async (msg) => {
+    try {
+         const database = await connectDB();
+         msg.reply.text(`Connected to database: ${database.databaseName}`);
+ } catch (err) {
+          msg.reply.text("Failed to connect to the database. Please try again later.");
+        console.error("Error in /db command:", err);
+            }
+          });     
+
 export default bot;
