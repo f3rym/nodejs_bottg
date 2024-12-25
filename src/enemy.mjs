@@ -96,18 +96,18 @@ export const defAttack = async (msg,  enemy) =>
     {
         if (character)
         {
-            const damage = character.damage;
-            enemy[userId].health -= damage;
-            character.dept += enemy[userId].damage;
+            enemy[userId].health -= character.damage;
+
+        //    character.dept += enemy[userId].damage;
             character.health -=enemy[userId].damage;
+
             await updateCharacter(userId, { health: character.health }); // Сохранение изменений в базу данных
-            await updateCharacter(userId, { dept: character.dept });
-    console.log(`character.health: ${character.health}, enemy[${userId}].health: ${enemy[userId].health}`);
+        //    await updateCharacter(userId, { dept: character.dept });
             if(character.health <= 0 || enemy[userId].health <= 0)
                  await ChekHP(msg, enemy);
             else
             {
-                await msg.reply.text(`Атака. Ваш урон: ${damage}. Здоровье врага: ${enemy[userId].health} HP`);
+                await msg.reply.text(`Атака. Ваш урон: ${character.damage}. Здоровье врага: ${enemy[userId].health} HP`);
                 
                 await msg.reply.text(`Оу нееет. Враг нанес урон, у вас осталось: ${character.health} HP\n/box1 /box2 /fight`);
             }
