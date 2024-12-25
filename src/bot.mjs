@@ -54,7 +54,7 @@ bot.on('/move', async (msg) =>
     }
     catch (err)
     {
-        await bot.sendMessage(msg.chat.id, 'Ошибка при получении персонажа.');
+        await bot.sendMessage(msg.chat.id, `Ошибка при получении персонажа.${err.message}`);
     }
 });
 

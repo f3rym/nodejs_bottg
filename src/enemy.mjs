@@ -27,7 +27,7 @@ export const enemyFind = async (msg, userId, enemy) =>
     }
     catch (err)
     {
-        await bot.reply.text(msg.chat.id, 'Ошибка при получении персонажа.');
+        await bot.reply.text(msg.chat.id, `Ошибка при получении персонажа.${err.message}`);
     }
 };
         
@@ -68,7 +68,7 @@ export const boxAttack = async (msg, enemy) =>
     }
     catch (err)
     {
-        await bot.reply.text(msg.chat.id, 'Ошибка при получении персонажа.');
+        await bot.reply.text(msg.chat.id, `Ошибка при получении персонажа.${err.message}`);
     }
     
 };
@@ -99,6 +99,6 @@ export const defAttack = async (msg,  enemy) =>
     }
     catch (err)
     {
-        await bot.reply.text(msg.chat.id, 'Ошибка при получении персонажа.');
+        await bot.reply.text(msg.chat.id, `Ошибка при получении персонажа.${err.message}`);
     }
 };
