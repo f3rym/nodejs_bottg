@@ -1,12 +1,9 @@
 import TeleBot from 'telebot';
+import mongo from './db.mjs'
 import { enemyFind, box1Attack, box2Attack, defAttack } from './enemy.mjs';
 
-const bot = new TeleBot(
-    {
-         token: process.env.TELEGRAM_BOT_TOKEN,
-          webhook: { url: 'https://your-domain.com:443',
-    } 
-}); 
+const bot = new TeleBot(process.env.TELEGRAM_BOT_TOKEN);
+ 
 
 const characters = {};
 const enemy = {}
@@ -56,4 +53,5 @@ bot.on('/box1', async (msg) => {
              await fightAttack(msg, characters, enemy); 
         });
 
+bot.on('/db', async (msg) => msg.reply.text(mongo.db().databaseName))        
 export default bot;
