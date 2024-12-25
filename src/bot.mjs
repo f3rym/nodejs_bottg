@@ -53,9 +53,19 @@ bot.on('/box1', async (msg) => {
              await defAttack(msg, characters, enemy); 
         });
 
- bot.on('/db', async (msg) => {
-         const database = await connectDB();
-        await msg.reply.text(`Connected to database: ${database.databaseName}`)});
- 
+        bot.on('/db', async (msg) => {
+            try {
+                // Попытка подключиться к базе данных
+                const database = await connectDB();
+                
+                // Ответ пользователю с именем базы данных
+                await msg.reply.text(`Подключено к базе данных: ${database.databaseName}`);
+            } catch (error) {
+                // Обработка ошибки подключения
+                console.error('Ошибка при подключении к базе данных:', error);
+                await msg.reply.text('Не удалось подключиться к базе данных. Проверьте настройки.');
+            }
+        });
+        
 
 export default bot;
