@@ -43,7 +43,7 @@ export const boxAttack = async (msg, enemy) =>
             { 
                 character.health -=enemy[userId].damage;
                 character.dept += enemy[userId].damage;
-                enemy[userId].health -= damage; 
+                enemy[userId].health -= character.damage; 
                 await updateCharacter(userId, { dept: character.dept });
                 await updateCharacter(userId, { health: character.health }); // Сохранение изменений в базу данных
 
@@ -60,7 +60,7 @@ export const boxAttack = async (msg, enemy) =>
             {
                 const damage = character.damage * 2;
                 enemy[userId].health -= damage; 
-                character.dept += damage;
+                character.dept += enemy[userId].damage;
                 await updateCharacter(userId, { dept: character.dept });
                 character.health -=enemy[userId].damage;
                 await updateCharacter(userId, { health: character.health }); // Сохранение изменений в базу данных
