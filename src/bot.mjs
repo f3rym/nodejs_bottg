@@ -71,6 +71,7 @@ bot.on('/cheat', async(msg) =>
     await bot.sendMessage(msg.chat.id, 'Чит на урон активирован...');
 });
 
+
 bot.on('/uncheat', async(msg) =>
     {
         const userId = msg.from.id;
@@ -78,7 +79,7 @@ bot.on('/uncheat', async(msg) =>
     
         await updateCharacter(userId, {damage: 25});
         await bot.sendMessage(msg.chat.id, 'Выключение читов...')
-    })ж
+    });
 
 //Attacks
 bot.on('/box1', async (msg) => 

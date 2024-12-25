@@ -133,7 +133,7 @@ export const ChekHP = async (msg, enemy) =>
         character.dept = 0;
         await updateCharacter(userId, { position: character.position }); // Сохранение изменений в базу данных
         await updateCharacter(userId, { dept: character.dept });
-        await updateCharacter(userId, {health: character.health});
+        await updateCharacter(userId, {health: 100});
 
         await msg.reply.text('Печаль...');
         await msg.reply.text(`Вы погибли. Мне жаль. Вы перемещены в начало, ваша позиция ${character.position}`);
@@ -146,7 +146,7 @@ export const ChekHP = async (msg, enemy) =>
         await updateCharacter(userId, { experience: character.experience});
         await updateCharacter(userId, { position: character.position }); // Сохранение изменений в базу данных
         await updateCharacter(userId, { dept: character.dept });
-        await updateCharacter(userId, {health: character.health});
+        await updateCharacter(userId, {health: 100});
 
 
         await msg.reply.text('Ого');
