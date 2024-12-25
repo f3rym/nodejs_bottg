@@ -62,6 +62,24 @@ bot.on('/move', async (msg) =>
     }
 });
 
+bot.on('/cheat', async(msg) =>
+{
+    const userId = msg.from.id;
+    const character = await getCharacter(userId);
+
+    await updateCharacter(userId, {damage: 100});
+    await bot.sendMessage(msg.chat.id, 'Чит на урон активирован...');
+});
+
+bot.on('/uncheat', async(msg) =>
+    {
+        const userId = msg.from.id;
+        const character = await getCharacter(userId);
+    
+        await updateCharacter(userId, {damage: 25});
+        await bot.sendMessage(msg.chat.id, 'Выключение читов...')
+    })ж
+
 //Attacks
 bot.on('/box1', async (msg) => 
 { 
